@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 
-// Declarations from production code
+// Production code headers
 char size(int cms);
 int printColorMap();
 namespace WeatherSpace {
@@ -45,10 +45,9 @@ TEST(ColorMap, Print) {
     std::string output = buffer.str();
 
     EXPECT_EQ(result, 25);
-    // Check first line alignment and correct mapping
     // BUG: Will fail because minor color uses wrong index
     EXPECT_NE(output.find("0 | White | Blue"), std::string::npos);
-    // Optional extra check: column alignment
+    // Optional extra check: alignment for single-digit numbers
     std::istringstream iss(output);
     std::string firstLine;
     std::getline(iss, firstLine);
@@ -73,3 +72,4 @@ TEST(WeatherReport, HighPrecipitation) {
     std::cout << "Report: " << report << "\n";
     // BUG: Will fail because code doesn't handle this as rain
     EXPECT_NE(report.find("rain"), std::string::npos);
+}
