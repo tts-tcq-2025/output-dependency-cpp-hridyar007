@@ -73,5 +73,3 @@ TEST(WeatherReport, HighPrecipitation) {
     std::cout << "Report: " << report << "\n";
     // BUG: Will fail because code doesn't handle this as rain
     EXPECT_NE(report.find("rain"), std::string::npos);
-}
-
