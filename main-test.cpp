@@ -23,9 +23,9 @@ namespace WeatherSpace {
 TEST(TShirt, Size) {
     std::cout << "\nTshirt size test\n";
     EXPECT_EQ(size(37), 'S');
-    EXPECT_EQ(size(38), 'M'); // BUG: will fail
+    EXPECT_EQ(size(38), 'M'); // BUG: will currently fail
     EXPECT_EQ(size(40), 'M');
-    EXPECT_EQ(size(42), 'L'); // BUG: will fail
+    EXPECT_EQ(size(42), 'L'); // BUG: will currently fail
     EXPECT_EQ(size(43), 'L');
 }
 
@@ -45,13 +45,14 @@ TEST(ColorMap, Print) {
     std::string output = buffer.str();
 
     EXPECT_EQ(result, 25);
-    // BUG: Will fail because minor color uses wrong index
-    EXPECT_NE(output.find("0 | White | Blue"), std::string::npos);
-    // Optional extra check: alignment for single-digit numbers
+    // Check first mapping is correct (minor color should be Blue, not White)
+    EXPECT_NE(output.find("0 | White | Blue"), std::string::npos); // BUG: will fail
+
+    // Alignment check: "0 " should be followed by a space before '|'
     std::istringstream iss(output);
     std::string firstLine;
     std::getline(iss, firstLine);
-    EXPECT_EQ(firstLine[2], ' '); // expecting a space after single-digit numbers
+    EXPECT_EQ(firstLine[2], ' '); // expecting single digit number aligned with space
 }
 
 // ========================
@@ -70,6 +71,6 @@ TEST(WeatherReport, HighPrecipitation) {
     HighPrecipLowWindStub sensor;
     std::string report = WeatherSpace::Report(sensor);
     std::cout << "Report: " << report << "\n";
-    // BUG: Will fail because code doesn't handle this as rain
+    // BUG: code treats this as "Sunny Day", not "Rain"
     EXPECT_NE(report.find("rain"), std::string::npos);
 }
